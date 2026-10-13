@@ -1,0 +1,66 @@
+---
+title: "Developer Guide"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Developer Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Environment Setup
+
+Download R and RStudio. Install the standard R libraries for package development by running the R code `install.packages(c("devtools", "usethis", "roxygen2", "testthat"))`. Windows users will also need to install Rtools (https://cran.r-project.org/bin/windows/Rtools/) and macOS users will need Xcode Command Line Tools (https://developer.apple.com/documentation/xcode/installing-the-command-line-tools). Follow the installation instructions on the above sites.
+
+# Package Development
+
+## Metadata
+
+The DESCRIPTION file contains directly editable metadata, including title, description, and authors.
+
+## Developing
+
+To create a new R file in the package, run `usethis::use_r("my_function")` or manually add a `my_function.R` file to the `R/` folder. Use `roxygen2` inline comments to add documentation to exported functions:
+
+```{r}
+#' Add Two Numbers
+#'
+#' @description
+#' Takes two numeric vectors and returns their element-wise sum.
+#'
+#' @param x A numeric vector or single number.
+#' @param y A numeric vector or single number.
+#' 
+#' @return A numeric vector representing the sum of \code{x} and \code{y}.
+#' 
+#' @examples
+#' # Add two single numbers
+#' add_numbers(3, 5)
+#' 
+#' @export
+add_numbers <- function(x, y) { ... }
+```
+
+To create the documentation files based on the `roxygen2` comments, run `devtools::document`. This updates files in the `man/` directory and updates the `NAMESPACE` file.
+
+Vignettes are long-form tutorials in the documentation. To create a vignette, run `usethis::use_vignette("my-vignette")`. This created an editable `.Rmd` file in the `vignettes/` directory. Ensure the YAML `title` and `VignetteIndexEntry` match.
+
+To update the public-facing documentation website, run `pkgdown::build_site()`. To view the website, open `index.html` in the `docs/` folder.
+
+## Testing
+
+To manually load and test package functions, you may run `devtools::load_all()` or `devtools::install()`. `devtools::load_all()` makes the package functions temporarily available in the current R session. `devtools::install()` adding the package to the computer's R package library and making it available to use in normal R sessions, similar to `install.packages()`.
+
+To create an automatic test case, run TODO. To run the test suite, run `devtools::test()`.
+
+## Publishing
+
+First, perform diagnostic checks by running `devtools::check()`. Then, compile the package by running `devtools::build()`.
+
+TODO either github or CRAN

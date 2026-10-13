@@ -1,0 +1,37 @@
+---
+title: "User Guide"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{User Guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Introduction
+
+This package makes calculating DFBETA correlations very easy. Here's how you do it.
+
+```{r}
+library(Package)
+
+# Import your data from somewhere
+data <- data.frame(
+    X = c(1, 1, 2, 3, 5)
+    , M = c(3, 4, 3, 5, 9)
+    , Y = c(7, 4, 4, 2, 1)
+)
+
+# Create regression models
+model_a <- lm(M ~ X, data = data)
+model_bc <- lm(Y ~ X + M, data = data)
+
+# Calculate DFBETAs
+Package::get_dfbetas(model_a, model_bc, "X", "M")
+```
